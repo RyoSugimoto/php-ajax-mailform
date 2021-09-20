@@ -1,0 +1,11 @@
+{
+  "name": "php-ajax-mailform",
+  "version": "0.1.0",
+  "author": "RyoSugimoto <1042374+RyoSugimoto@users.noreply.github.com>",
+  "scripts": {
+    "up": "docker compose up -d",
+    "down": "docker compose down"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <title>MailForm Demo</title>
+</head>
+<body>
+<div class="container container-sm">
+  <h1 class="display-4">メールフォーム</h1>
+  <form
+    action="/app/contact.php"
+    method="POST"
+    id="form"
+    name="form"
+  >
+    <dl class="">
+      <dt><label for="subject" class="form-label">ご用件</label></dt>
+      <dd>
+        <select name="subject" id="subject" class="form-select">
+          <option value="">選択してください</option>
+          <option value="質問・相談" selected>質問・相談</option>
+          <option value="見積り">見積り</option>
+          <option value="資料請求">資料請求</option>
+          <option value="取材依頼">取材依頼</option>
+          <option value="その他">その他</option>
+        </select>
+      </dd>
+
+      <dt><label for="your-name" class="form-label">お名前</label></dt>
+      <dd><input
+        name="username"
+        type="text"
+        id="your-name"
+        placeholder="Test Name"
+        class="form-control"
+        value="Test Name"
+      ></dd>
+
+      <dt><label for="your-email" class="form-label">メールアドレス</label></dt>
+      <dd><input
+        name="email"
+        type="email"
+        id="your-email"
+        placeholder="mail@test.test"
+        class="form-control"
+        value="mail@test.test"
+      ></dd>
+
+      <dt><label for="your-message" class="form-label">メッセージ</label></dt>
+      <dd><textarea
+        name="message"
+        id="your-message"
+        col="40"
+        row="6"
+        class="form-control"
+      >メールの本文です。メールの本文です。メールの本文です。メールの本文です。</textarea></dd>
+    </dl>
+
+    <p>よろしければ、下記のアンケートにお答えください。</p>
+
+    <dl>
+      <dt>あなたの性別は？</dt>
+      <dd>
+        <label><input name="gender" type="radio" value="男性"> 男性</label>
+        <label><input name="gender" type="radio" value="女性"> 女性</label>
+        <label><input name="gender" type="radio" value="その他"> その他</label>
+        <label><input name="gender" type="radio" value="未回答" checked> 答えない</label>
+      </dd>
+
+      <dt>あなたの関心事は？（複数回答可）。</dt>
+      <dd>
+        <label>
+          <input name="interest[]" type="checkbox" value="ライフスタイル" checked>
+          ライフスタイル
+        </label>
+        <label>
+          <input name="interest[]" type="checkbox" value="ビジネス・経済">
+          ビジネス・経済
+        </label>
+        <label>
+          <input name="interest[]" type="checkbox" value="IT技術・サイエンス">
+          IT技術・サイエンス
+        </label>
+        <label>
+          <input name="interest[]" type="checkbox" value="アート・デザイン">
+          アート・デザイン
+        </label>
+        <label>
+          <input name="interest[]" type="checkbox" value="音楽・芸能">
+          音楽・芸能
+        </label>
+      </dd>
+    </dl>
+
+    <p><label><input
+      type="checkbox"
+      name="agreed"
+      aria-label="利用規約に同意しますか？"
+      value="yes"
+    >
+      利用規約に同意しますか？</label></p>
+
+    <div class="action">
+      <button
+        class="btn btn-outline-primary"
+        type="submit"
+        id="form-submit"
+      >送信する</button>
+    </div>
+
+    <input type="hidden" name="name" value="a">
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+const form = document.querySelector('#form')
+const submit = document.querySelector('#form-submit')
+const action = form.action
+
+submit.addEventListener('click', async (e) => {
+  e.preventDefault()
+  const formData = new FormData(form)
+  axios.post(action, formData)
+  .then(response => {
+    console.log(response.data)
+  })
+})
+</script>
+<style>
+</style>
+</body>
+</html>

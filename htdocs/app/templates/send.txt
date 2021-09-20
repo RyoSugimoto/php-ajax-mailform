@@ -1,0 +1,13 @@
+# { username }様より「{ subject }」のお問い合わせをいただきました。
+
+{message}
+
+* 名前: { username }
+* メールアドレス: { email }
+* 性別: { gender }
+* 関心: { interest }
+
+---
+All data sent
+
+{  all  }

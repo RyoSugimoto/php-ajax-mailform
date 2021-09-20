@@ -1,0 +1,12 @@
+# { username }様
+
+お問い合わせありがとうございます。
+
+{subject}
+
+{message}
+
+* 名前: { username }
+* メールアドレス: { email }
+* 性別: { gender }
+* 関心: { interest }

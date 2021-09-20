@@ -1,0 +1,13 @@
+version: "3.0"
+
+services:
+  php:
+    build: ./php
+    volumes:
+      - ./htdocs:/var/www/html
+    ports:
+      - "9092:80"
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025" # port for the web interface
