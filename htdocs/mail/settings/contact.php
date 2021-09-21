@@ -1,9 +1,5 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type");
-require_once __DIR__ . '/classes/App.php';
-
-new App([
+return [
   'to' => 'to@test.test',
   'headers' => [
     'From' => 'Website <no-reply@test.test>',
@@ -15,7 +11,7 @@ new App([
     /**
      * 本文用テンプレートファイルのパス
      */
-    'template' => './templates/send.txt',
+    'template' => 'send.txt',
     /**
      * ハニーポット
      */
@@ -31,8 +27,8 @@ new App([
       'Reply-To' => 'Website Mail Form <no-reply@test.test>',
     ],
     'auto_reply_options' => [
-      'auto_reply_subject' => 'Thank you for your contact.',
-      'auto_reply_template' => './templates/reply.txt',
+      'subject' => 'お問い合わせ内容のご確認',
+      'template' => 'reply.txt',
     ],
   ],
-]);
+];

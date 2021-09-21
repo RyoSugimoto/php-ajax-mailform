@@ -1,14 +1,17 @@
 <?php
 class Controller
 {
+  public $base_url = '';
   public $settings = [];
   public $post = [];
   public $mailer = null;
   public $mailer_reply = null;
 
-  public function __construct($settings)
+  public function __construct($setting_name, $base_url)
   {
-    $settingObject = new Settings($settings);
+    $this->base_url = $base_url;
+
+    $settingObject = new Settings($setting_name, $this->base_url);
     $this->settings = $settingObject->get();
 
     if (
@@ -21,7 +24,7 @@ class Controller
     }
 
     // 送信データが正常に取得できなければプログラムを終了する。
-    $this->post = $this->getData() ? : exit;
+    $this->post = Data::getDataFromPost() ? : exit;
 
     // ハニーポットとしたフィールドに値があればプログラムを終了する。
     if ($this->honeypotHasValue()) exit;
@@ -30,7 +33,8 @@ class Controller
     $mail_subject = Formatter::getSubject($this->post, $this->settings['options']['subject']);
 
     // 送信データとテンプレートから本文を用意する。
-    $template_string = file_get_contents($this->settings['options']['template']);
+    $template_path = $this->base_url . '/templates/' . $this->settings['options']['template'];
+    $template_string = file_get_contents($template_path);
     $mail_body = Formatter::getMailBody($this->post, $template_string);
 
     if (!Validator::isEmail($this->settings['to'])) exit;
@@ -64,7 +68,8 @@ class Controller
     $reply_mail_subject = Formatter::getSubject($this->post, $this->settings['options']['auto_reply_options']['subject']);
 
     // 送信データとテンプレートから本文を用意する。
-    $reply_template_string = file_get_contents($this->settings['options']['auto_reply_options']['template']);
+    $reply_template_path = $this->base_url . '/templates/' . $this->settings['options']['auto_reply_options']['template'];
+    $reply_template_string = file_get_contents($reply_template_path);
     $reply_mail_body = Formatter::getMailBody($this->post, $reply_template_string);
 
     // 自動返信用のメーラーインスタンスを生成する。
@@ -98,34 +103,6 @@ class Controller
       return $this->post[$honeypot_field];
     }
     return false;
-  }
-
-  /**
-   * 送信されたデータを返す。
-   * 取得に失敗した場合はfalseを返す。
-   */
-  public function getData()
-  {
-    if (empty($_POST)) {
-      return false;
-    }
-    return $_POST;
-  }
-
-  /**
-   * 送信されたデータ（JSON）を連想配列にして返す。
-   * 変換に失敗した場合はfalseを返す。
-   */
-  public function getDataFromJson()
-  {
-    $json = file_get_contents('php://input');
-    // JSONを連想配列に変換。
-    $data = json_decode($json, true);
-    if (!is_array($data)) {
-      // データが正常に処理できなかった場合
-      return false;
-    }
-    return $data;
   }
 
   /**
